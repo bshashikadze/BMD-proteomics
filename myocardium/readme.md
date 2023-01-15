@@ -61,7 +61,7 @@ filter_pg_fn <- function(data) {
 PG_filtered <- filter_pg_fn(proteingroups)
 ```
 
-
+### read conditions file (modified)
 ``` r
 conditions <- read.delim("conditions_modified.txt", sep = "\t", header = T)
 ```
