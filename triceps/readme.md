@@ -877,9 +877,7 @@ data_ecm <- data_allprot_stand %>%
   rename(Gene = `Gene Symbol`) %>% 
   left_join(gene_set) %>% 
   filter(Process == "+")
-```
 
-``` r
 # which comparisons will be made
 ecm_comparisons <- list(c("Δ51-52", "Δ52"), c("Δ52", "WT"),  c("Δ51-52", "WT"))
 
