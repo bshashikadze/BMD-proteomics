@@ -921,8 +921,6 @@ ggplot(data_ecm, aes(x=Group, y=Intensity, fill = Group))+
                             legend.spacing.x  = unit(0.4, 'mm'),
                                  legend.margin=margin(0,0,0,0),
                             legend.box.margin=margin(-2.38,-2,-2.5,-2))
-```
 
-``` r
 ggsave("ecm_triceps.svg", width = 2.5, height = 3)
 ```
