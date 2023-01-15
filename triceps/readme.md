@@ -175,10 +175,7 @@ DMD_WT <- filter_valid_fn(PG_filtered, conditions_file = conditions, subset_grou
   left_join(PG_imputed %>% 
               select(starts_with(conditions$Bioreplicate[conditions$Group != "Δ51-52"])) %>% 
               rownames_to_column("Protein_IDs"))
-```
 
-
-``` r
 # save
 write.table(DMD_WT, "DMD_WT.txt", sep = "\t", row.names = F, quote = F)
 
@@ -190,9 +187,7 @@ BMD_WT <- filter_valid_fn(PG_filtered, conditions_file = conditions, subset_grou
   left_join(PG_imputed %>% 
               select(starts_with(conditions$Bioreplicate[conditions$Group != "Δ52"])) %>% 
               rownames_to_column("Protein_IDs"))
-```
 
-``` r
 # save
 write.table(BMD_WT, "BMD_WT.txt", sep = "\t", row.names = F, quote = F)
 ```
@@ -285,18 +280,13 @@ Hmap         <- Heatmap(as.matrix(anova_sig),
 
 #calculate actual plot size
 ht <- draw(Hmap)
-```
 
-
-``` r
 w1 = ComplexHeatmap:::width(ht)
 w1 = convertX(w1, "inch", valueOnly = TRUE)
 h1 = ComplexHeatmap:::height(ht)
 h1 = convertY(h1, "inch", valueOnly = TRUE)
 c(w1, h1)
-```
 
-``` r
 # for cowplot
 heatmap_plot = grid.grabExpr(draw(Hmap))
 ```
@@ -323,15 +313,10 @@ Group = grid.grabExpr(color_mapping_legend(Hmap@top_annotation@anno_list[["Group
                                            nrow = 3, plot = T,  
                                            title_gp = gpar(fontsize = 8.5),  
                                            labels_gp = gpar(fontsize = 8.5)))
-```
 
-``` r
 # combine legends and save
 plot_grid(hm_legend, Group, ncol = 3, rel_widths = c(1,1,1), rel_heights = c(1,1,1))
-```
 
-
-``` r
 ggsave("legend_hm.svg", width =3, height = 1)
 ```
 
@@ -343,9 +328,7 @@ ggsave("legend_hm.svg", width =3, height = 1)
 # order from heatmap
 set.seed(1234)
 km_order <- row_order(Hmap)
-```
 
-``` r
 # first cluster
 cluster_1 <- as.data.frame(km_order[1]) %>% 
   mutate(k = "Cl 1") %>% 
@@ -424,10 +407,7 @@ Cluster_data_long <- Cluster_data %>%
 Cluster_data_long  <- Cluster_data_long %>% 
   left_join(conditions %>% 
               mutate(Bioreplicate = str_replace(Bioreplicate, "LFQ.intensity.", "")))
-```
 
-
-``` r
 # make sure the order of facets corresponds order on heatmap
 Cluster_data_long$k = factor(Cluster_data_long$k, levels= unique(anova_sig_suppl$Cluster)) 
 
@@ -503,17 +483,11 @@ ora_for_cluster_function <- function(data, cluster_name) {
 
 # apply the function
 cluster_1 <- ora_for_cluster_function(ora, cluster_name = "Cl 1")
-```
 
-``` r
 cluster_2 <- ora_for_cluster_function(ora, cluster_name = "Cl 2")
-```
 
-``` r
 cluster_3 <- ora_for_cluster_function(ora, cluster_name = "Cl 3")
-```
 
-``` r
 # combine ora data
 ora_data <- cluster_1 %>% 
   bind_rows(cluster_2, cluster_3) %>% 
@@ -603,24 +577,16 @@ plot_dot_legend_size <- plot_dot +
 plot_dot_legend_fill <- get_legend(plot_dot_legend_fill) 
 grid.newpage()                                     
 grid.draw(plot_dot_legend_fill) 
-```
 
 
-``` r
 # draw legends only (size)
 plot_dot_legend_size <- get_legend(plot_dot_legend_size ) 
 grid.newpage()                                     
 grid.draw(plot_dot_legend_size ) 
-```
 
-
-``` r
 # save legend
 ggarrange(plot_dot_legend_fill, plot_dot_legend_size, nrow = 2)
-```
 
-
-``` r
 ggsave("ora_legend.svg",  width =2.8, height = 0.9)
 rm(plot_dot_legend_fill, plot_dot_legend_size)
 ```
@@ -752,10 +718,7 @@ volcano_fn <- function(data, xy, fc_relative_to) {
 ``` r
 # apply the function
 volcano_DMD <- volcano_fn(data = DMD_WT_perseus, xy = xy_DMD_WT, fc_relative_to = "DMD")
-```
 
-
-``` r
 # plot volcano
 volcano_plot_DMD <- ggplot(volcano_DMD[[1]] %>%                       
                        arrange(desc(`Diff_abundant`)),  mapping = aes(x = `log2 fold change`, y = -log10(`p-value`),
@@ -793,10 +756,7 @@ volcano_plot_DMD <- ggplot(volcano_DMD[[1]] %>%
 ``` r
 # apply the function
 volcano_BMD <- volcano_fn(data = BMD_WT_perseus, xy = xy_BMD_WT, fc_relative_to = "BMD")
-```
 
-
-``` r
 # plot volcano
 volcano_plot_BMD <- ggplot(volcano_BMD[[1]] %>%                       
                        arrange(desc(`Diff_abundant`)),  mapping = aes(x = `log2 fold change`, y = -log10(`p-value`),
