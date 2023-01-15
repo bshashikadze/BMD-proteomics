@@ -424,7 +424,7 @@ ora <- Cluster_data %>%
   select(-Protein.IDs)
 ```
 
-
+### perform ora using WebGestaltR
 ``` r
 ora_for_cluster_function <- function(data, cluster_name) {
   
