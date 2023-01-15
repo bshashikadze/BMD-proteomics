@@ -3,10 +3,11 @@ myocardium
 BS
 2023-01-15
 
-DMD -\> “Δ52” BMD -\> “Δ51-52”
+DMD -\> “Δ52” 
+BMD -\> “Δ51-52”
 
 “proteinGroups_myocardium.txt” can be downloaded from PRIDE repository
-(ID to be provided); all other files acan be found in this repository
+(ID to be provided); all other necessary files can be found in this repository
 
 ## load libraries
 
@@ -60,10 +61,6 @@ filter_pg_fn <- function(data) {
 PG_filtered <- filter_pg_fn(proteingroups)
 ```
 
-    ## conditions file was generated, rename to conditions_modified and modify the second column
-    ##     according to experimental groups
-
-### read conditions file (modified)
 
 ``` r
 conditions <- read.delim("conditions_modified.txt", sep = "\t", header = T)
@@ -106,11 +103,6 @@ PG_valid <- filter_valid_fn(PG_filtered, conditions_file = conditions,
                             subset_groups = c("Δ51-52", "Δ52", "WT"), 
                             min_val_atleastonegr = 3)
 ```
-
-    ## Joining, by = "Bioreplicate"
-    ## `summarise()` has grouped output by 'Protein.IDs'. You can override using the
-    ## `.groups` argument.
-    ## Joining, by = "Protein.IDs"
 
 ## impute missing values from normal distribution (Perseus -\> impute missing values)
 
@@ -170,15 +162,7 @@ DMD_WT <- filter_valid_fn(PG_filtered, conditions_file = conditions, subset_grou
   left_join(PG_imputed %>% 
               select(starts_with(conditions$Bioreplicate[conditions$Group != "Δ51-52"])) %>% 
               rownames_to_column("Protein_IDs"))
-```
 
-    ## Joining, by = "Bioreplicate"
-    ## `summarise()` has grouped output by 'Protein.IDs'. You can override using the
-    ## `.groups` argument.
-    ## Joining, by = "Protein.IDs"
-    ## Joining, by = "Protein_IDs"
-
-``` r
 # save
 write.table(DMD_WT, "DMD_WT.txt", sep = "\t", row.names = F, quote = F)
 # BMD versus WT
@@ -188,16 +172,7 @@ BMD_WT <- filter_valid_fn(PG_filtered, conditions_file = conditions, subset_grou
   left_join(PG_imputed %>% 
               select(starts_with(conditions$Bioreplicate[conditions$Group != "Δ52"])) %>% 
               rownames_to_column("Protein_IDs"))
-```
 
-    ## Joining, by = "Bioreplicate"
-    ## `summarise()` has grouped output by 'Protein.IDs'. You can override using the
-    ## `.groups` argument.
-    ## Joining, by = "Protein.IDs"
-    ## Joining, by = "Protein_IDs"
-
-``` r
-# save
 write.table(BMD_WT, "BMD_WT.txt", sep = "\t", row.names = F, quote = F)
 ```
 
@@ -286,21 +261,15 @@ Hmap         <- Heatmap(as.matrix(anova_sig) ,
 
 #calculate actual plot size
 ht <- draw(Hmap)
-```
 
-![](myocardium_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
-``` r
 w1 = ComplexHeatmap:::width(ht)
 w1 = convertX(w1, "inch", valueOnly = TRUE)
 h1 = ComplexHeatmap:::height(ht)
 h1 = convertY(h1, "inch", valueOnly = TRUE)
 c(w1, h1)
-```
 
-    ## [1] 2.038952 4.442463
 
-``` r
 # for cowplot
 heatmap_plot = grid.grabExpr(draw(Hmap))
 ```
@@ -325,64 +294,10 @@ Group = grid.grabExpr(color_mapping_legend(Hmap@top_annotation@anno_list[["Group
                                            nrow = 3, plot = T,  
                                            title_gp = gpar(fontsize = 8.5),  
                                            labels_gp = gpar(fontsize = 8.5)))
-```
 
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ51-52' in 'mbcsToSbcs': dot substituted for <ce>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ51-52' in 'mbcsToSbcs': dot substituted for <94>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ52' in 'mbcsToSbcs': dot substituted for <ce>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ52' in 'mbcsToSbcs': dot substituted for <94>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ51-52' in 'mbcsToSbcs': dot substituted for <ce>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ51-52' in 'mbcsToSbcs': dot substituted for <94>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ52' in 'mbcsToSbcs': dot substituted for <ce>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ52' in 'mbcsToSbcs': dot substituted for <94>
-
-    ## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ51-52' in 'mbcsToSbcs': dot substituted for <ce>
-
-    ## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ51-52' in 'mbcsToSbcs': dot substituted for <94>
-
-    ## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ52' in 'mbcsToSbcs': dot substituted for <ce>
-
-    ## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ52' in 'mbcsToSbcs': dot substituted for <94>
-
-    ## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ51-52' in 'mbcsToSbcs': dot substituted for <ce>
-
-    ## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ51-52' in 'mbcsToSbcs': dot substituted for <94>
-
-    ## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ52' in 'mbcsToSbcs': dot substituted for <ce>
-
-    ## Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ52' in 'mbcsToSbcs': dot substituted for <94>
-
-``` r
 # combine legends and save
 plot_grid(hm_legend, Group, ncol = 3, rel_widths = c(1,1,1), rel_heights = c(1,1,1))
-```
 
-![](myocardium_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
-
-``` r
 ggsave("legend_hm.svg", width =3, height = 1)
 ```
 
@@ -393,13 +308,7 @@ ggsave("legend_hm.svg", width =3, height = 1)
 ``` r
 # order from heatmap
 km_order <- row_order(Hmap)
-```
 
-    ## Warning: The heatmap has not been initialized. You might have different results
-    ## if you repeatedly execute this function, e.g. when row_km/column_km was
-    ## set. It is more suggested to do as `ht = draw(ht); row_order(ht)`.
-
-``` r
 # first cluster
 cluster_1 <- as.data.frame(km_order[1]) %>% 
   mutate(k = "Cl 1") %>% 
@@ -409,7 +318,6 @@ cluster_1 <- as.data.frame(km_order[1]) %>%
 cluster_2 <- as.data.frame(km_order[2]) %>% 
   mutate(k = "Cl 2") %>% 
   rename(n_row = 1)
-
 
 
 # combine all cluster
@@ -444,8 +352,6 @@ anova_sig_suppl <- read.delim("one_way_anova_perseus.txt", sep = "\t", header = 
                           'THSD pair'                 = T..Significant.pairs)
 ```
 
-    ## Joining, by = "Protein.IDs"
-    ## Joining, by = "Protein.IDs"
 
 ### get the order of samples on heatmap to make the same order in the profile plot
 
@@ -460,17 +366,7 @@ animal_order <- column_order(Hmap) %>%
                 rename(Animal = 1) %>% 
                 mutate(position = seq_along(1:ncol(anova_sig)))) %>% 
                 select(Animal) 
-```
 
-    ## Warning: The heatmap has not been initialized. You might have different results
-    ## if you repeatedly execute this function, e.g. when row_km/column_km was
-    ## set. It is more suggested to do as `ht = draw(ht); column_order(ht)`.
-
-    ## Joining, by = "position"
-
-### plot line plot for clusters
-
-``` r
 # facet labels
 f_labels <- data.frame(Cluster = c("Cl 1", "Cl 2"), label = c("Cl 1", "Cl 2"))
 
@@ -483,11 +379,7 @@ Cluster_data_long <- Cluster_data %>%
 Cluster_data_long  <- Cluster_data_long %>% 
   left_join(conditions %>% 
               mutate(Bioreplicate = str_replace(Bioreplicate, "LFQ.intensity.", "")))
-```
 
-    ## Joining, by = "Bioreplicate"
-
-``` r
 # make sure the order of facets corresponds order on heatmap
 Cluster_data_long$k = factor(Cluster_data_long$k, levels= unique(anova_sig_suppl$Cluster)) 
 
@@ -530,9 +422,6 @@ ora <- Cluster_data %>%
   select(-Protein.IDs)
 ```
 
-    ## Joining, by = "Protein.IDs"
-
-### perform ora (fdrThr = 0.25)
 
 ``` r
 ora_for_cluster_function <- function(data, cluster_name) {
@@ -565,39 +454,9 @@ ora_for_cluster_function <- function(data, cluster_name) {
 
 # apply the function
 cluster_1 <- ora_for_cluster_function(ora, cluster_name = "Cl 1")
-```
 
-    ## Loading the functional categories...
-    ## Loading the ID list...
-    ## Loading the reference list...
-    ## Summarizing the input ID list by GO Slim data...
-
-    ## Performing the enrichment analysis...
-    ## Begin affinity propagation...
-    ## End affinity propagation...
-    ## Begin weighted set cover...
-    ## Remain is 0, ending weighted set cover
-    ## Generate the final report...
-    ## Results can be found in the C:/Users/shashikadze/Documents/GitHub/BMD-proteomics/myocardium/Project_Cl 1!
-
-``` r
 cluster_2 <- ora_for_cluster_function(ora, cluster_name = "Cl 2")
-```
 
-    ## Loading the functional categories...
-    ## Loading the ID list...
-    ## Loading the reference list...
-    ## Summarizing the input ID list by GO Slim data...
-
-    ## Performing the enrichment analysis...
-    ## Begin affinity propagation...
-    ## End affinity propagation...
-    ## Begin weighted set cover...
-    ## Remain is 0, ending weighted set cover
-    ## Generate the final report...
-    ## Results can be found in the C:/Users/shashikadze/Documents/GitHub/BMD-proteomics/myocardium/Project_Cl 2!
-
-``` r
 # combine ora data
 ora_data <- cluster_1 %>% 
   bind_rows(cluster_2) %>% 
@@ -681,27 +540,15 @@ plot_dot_legend_size <- plot_dot +
 plot_dot_legend_fill <- get_legend(plot_dot_legend_fill) 
 grid.newpage()                                     
 grid.draw(plot_dot_legend_fill) 
-```
 
-![](myocardium_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
-
-``` r
 # draw legends only (size)
 plot_dot_legend_size <- get_legend(plot_dot_legend_size ) 
 grid.newpage()                                     
 grid.draw(plot_dot_legend_size ) 
-```
 
-![](myocardium_files/figure-gfm/unnamed-chunk-20-2.png)<!-- -->
-
-``` r
 # save legend
 ggarrange(plot_dot_legend_fill, plot_dot_legend_size, nrow = 2)
-```
 
-![](myocardium_files/figure-gfm/unnamed-chunk-20-3.png)<!-- -->
-
-``` r
 ggsave("ora_legend.svg",  width =2.8, height = 0.9)
 rm(plot_dot_legend_fill, plot_dot_legend_size)
 ```
@@ -736,8 +583,6 @@ pca_fn <- function(data, conditions_file) {
 }
 pca <- pca_fn(PG_imputed, conditions)
 ```
-
-    ## Joining, by = "Bioreplicate"
 
 ### PCA plot
 
@@ -829,11 +674,7 @@ volcano_fn <- function(data, xy, fc_relative_to) {
 ``` r
 # apply the function
 volcano_DMD <- volcano_fn(data = DMD_WT_perseus, xy = xy_DMD_WT, fc_relative_to = "DMD")
-```
 
-    ## Joining, by = "Protein.IDs"
-
-``` r
 # plot volcano
 volcano_plot_DMD <- ggplot(volcano_DMD[[1]] %>%                       
                        arrange(desc(`Diff_abundant`)),  mapping = aes(x = `log2 fold change`, y = -log10(`p-value`),
@@ -864,22 +705,13 @@ volcano_plot_DMD <- ggplot(volcano_DMD[[1]] %>%
   theme(plot.title = element_text(hjust = 0.5, size = 8.5))
 ```
 
-    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
-    ## argument is not an atomic vector; coercing
-
-    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
-    ## argument is not an atomic vector; coercing
 
 ### volcano BMD vs WT
 
 ``` r
 # apply the function
 volcano_BMD <- volcano_fn(data = BMD_WT_perseus, xy = xy_BMD_WT, fc_relative_to = "BMD")
-```
 
-    ## Joining, by = "Protein.IDs"
-
-``` r
 # plot volcano
 volcano_plot_BMD <- ggplot(volcano_BMD[[1]] %>%                       
                        arrange(desc(`Diff_abundant`)),  mapping = aes(x = `log2 fold change`, y = -log10(`p-value`),
@@ -910,11 +742,6 @@ volcano_plot_BMD <- ggplot(volcano_BMD[[1]] %>%
   theme(plot.title = element_text(hjust = 0.5, size = 8.5))
 ```
 
-    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
-    ## argument is not an atomic vector; coercing
-
-    ## Warning in stri_count_regex(string, pattern, opts_regex = opts(pattern)):
-    ## argument is not an atomic vector; coercing
 
 ## save data
 
@@ -923,129 +750,6 @@ volcano_plot_BMD <- ggplot(volcano_BMD[[1]] %>%
 ``` r
 p1 <- ggarrange(pca_plot, volcano_plot_DMD, volcano_plot_BMD, labels = c("c", "d", "e"), font.label = list(size = 14, face = "bold"),
           ncol = 3, nrow = 1, widths = c(7.1/3,7.1/3,7.1/3), heights = c(7.1/3,7.1/3,7.1/3))
-```
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ51-52' in 'mbcsToSbcs': dot substituted for <ce>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ51-52' in 'mbcsToSbcs': dot substituted for <94>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ51-52' in 'mbcsToSbcs': dot substituted for <ce>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ51-52' in 'mbcsToSbcs': dot substituted for <94>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ51-52' in 'mbcsToSbcs': dot substituted for <ce>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ51-52' in 'mbcsToSbcs': dot substituted for <94>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ51-52' in 'mbcsToSbcs': dot substituted for <ce>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ51-52' in 'mbcsToSbcs': dot substituted for <94>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ51-52' in 'mbcsToSbcs': dot substituted for <ce>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ51-52' in 'mbcsToSbcs': dot substituted for <94>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ52' in 'mbcsToSbcs': dot substituted for <ce>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ52' in 'mbcsToSbcs': dot substituted for <94>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ52' in 'mbcsToSbcs': dot substituted for <ce>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ52' in 'mbcsToSbcs': dot substituted for <94>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ52' in 'mbcsToSbcs': dot substituted for <ce>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ52' in 'mbcsToSbcs': dot substituted for <94>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ52' in 'mbcsToSbcs': dot substituted for <ce>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ52' in 'mbcsToSbcs': dot substituted for <94>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ52' in 'mbcsToSbcs': dot substituted for <ce>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ52' in 'mbcsToSbcs': dot substituted for <94>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ51-52' in 'mbcsToSbcs': dot substituted for <ce>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ51-52' in 'mbcsToSbcs': dot substituted for <94>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ51-52' in 'mbcsToSbcs': dot substituted for <ce>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ51-52' in 'mbcsToSbcs': dot substituted for <94>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ51-52' in 'mbcsToSbcs': dot substituted for <ce>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ51-52' in 'mbcsToSbcs': dot substituted for <94>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ51-52' in 'mbcsToSbcs': dot substituted for <ce>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ51-52' in 'mbcsToSbcs': dot substituted for <94>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ51-52' in 'mbcsToSbcs': dot substituted for <ce>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ51-52' in 'mbcsToSbcs': dot substituted for <94>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ52' in 'mbcsToSbcs': dot substituted for <ce>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ52' in 'mbcsToSbcs': dot substituted for <94>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ52' in 'mbcsToSbcs': dot substituted for <ce>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ52' in 'mbcsToSbcs': dot substituted for <94>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ52' in 'mbcsToSbcs': dot substituted for <ce>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ52' in 'mbcsToSbcs': dot substituted for <94>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ52' in 'mbcsToSbcs': dot substituted for <ce>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ52' in 'mbcsToSbcs': dot substituted for <94>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ52' in 'mbcsToSbcs': dot substituted for <ce>
-
-    ## Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, :
-    ## conversion failure on 'Δ52' in 'mbcsToSbcs': dot substituted for <94>
-
-``` r
 p2 <- rectGrob(width = 1, height = 1)
 p3 <- ggarrange(cluster_plot, p2, widths = c(1.8,1.8), heights = c(h1-1, 1), ncol = 1, labels = c("g"), font.label = list(size = 14, face = "bold"))
 p4 <- ggarrange(heatmap_plot, p3, labels = c("f"), font.label = list(size = 14), widths = c(w1, 2))
