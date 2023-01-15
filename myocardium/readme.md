@@ -366,7 +366,9 @@ animal_order <- column_order(Hmap) %>%
                 rename(Animal = 1) %>% 
                 mutate(position = seq_along(1:ncol(anova_sig)))) %>% 
                 select(Animal) 
-
+```
+### plot line plot for clusters
+``` r
 # facet labels
 f_labels <- data.frame(Cluster = c("Cl 1", "Cl 2"), label = c("Cl 1", "Cl 2"))
 
