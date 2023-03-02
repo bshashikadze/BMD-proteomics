@@ -795,10 +795,6 @@ volcano_plot_BMD <- ggplot(volcano_BMD[[1]] %>%
 ``` r
 p1 <- ggarrange(pca_plot, volcano_plot_DMD, volcano_plot_BMD, labels = c("e", "f", "g"), font.label = list(size = 14, face = "bold"),
           ncol = 3, nrow = 1, widths = c(7.1/3,7.1/3,7.1/3), heights = c(7.1/3,7.1/3,7.1/3))
-```
-
-
-``` r
 p2 <- rectGrob(width = 1, height = 1)
 p3 <- ggarrange(cluster_plot, p2, widths = c(1.8,1.8), heights = c(h1-1, 1), ncol = 1, labels = c("i"), font.label = list(size = 14, face = "bold"))
 p4 <- ggarrange(heatmap_plot, p3, labels = c("h"), font.label = list(size = 14), widths = c(w1, 2))
@@ -881,9 +877,7 @@ data_ecm <- data_allprot_stand %>%
   rename(Gene = `Gene Symbol`) %>% 
   left_join(gene_set) %>% 
   filter(Process == "+")
-```
 
-``` r
 # which comparisons will be made
 ecm_comparisons <- list(c("Δ51-52", "Δ52"), c("Δ52", "WT"),  c("Δ51-52", "WT"))
 
