@@ -2,7 +2,7 @@
 title: "myocardium"
 author: "BS"
 date: "2023-01-15"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
@@ -761,7 +761,7 @@ p4 <- ggarrange(heatmap_plot, p3, labels = c("f"), font.label = list(size = 14),
 p5 <- ggarrange(plot_dot, p2, widths = c(7.1-(w1+2),7.1-(w1+2)), heights = c(h1-1, 1), ncol = 1, labels = c("h"), font.label = list(size = 14, face = "bold"))
 p6 <- ggarrange(p4, p5, heights = c(h1, h1), widths = c(w1+2, 7.1-(w1+2)))
 p7 <- ggarrange(p1, p6, ncol = 1, widths = c(w1+2+7.1-(w1+2), w1+2+7.1-(w1+2)), heights = c(2.1, h1))
-ggsave("BMD_myoc.svg", width = w1+2+7.1-(w1+2), height = h1+2.1)
+ggsave("myocardium.svg", width = w1+2+7.1-(w1+2), height = h1+2.1)
 rm(p1,p2,p3,p4,p5,p6,p7)
 ```
 
